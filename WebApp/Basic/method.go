@@ -25,6 +25,12 @@ func (s *Student) changeName2(newName string) {
 
 	s.name=newName
 }
+//3. non-struct
+type String string
+func (s String) append(str string) string{
+	return fmt.Sprintf("%s, %s",s,str)
+}
+
 func main(){
 student:=Student{name: "Batman"}
 fmt.Printf("p1=%p",&student)
@@ -35,4 +41,7 @@ student.changeName("Superman")
 fmt.Println(student.name)
 student.changeName2("Superman")
 fmt.Println(student.name)
+s1:=String("a")
+newString:=s1.append("b")
+fmt.Println(newString)
 }
