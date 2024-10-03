@@ -23,7 +23,7 @@ func (d Dog) move() {
 	fmt.Println("dog move with 4 legs")
 }
 
-//empty interface -generic
+//empty interface - generic - any = interface{}
 func goout(i interface{}) {
 	fmt.Println(i)
 }
