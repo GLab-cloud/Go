@@ -41,5 +41,13 @@ func main() {
 	} else {
 		fmt.Println("not found value with this key")
 	}
+	addItem(1, 100, 200, 300, 400)
+	var list2 = []int{1, 2, 3, 4}
+	addItem(100, list2...)
+}
 
+// variadic function
+func addItem(item int, list ...int) {
+	list = append(list, item)
+	fmt.Println(list)
 }
