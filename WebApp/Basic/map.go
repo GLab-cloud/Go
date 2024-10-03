@@ -27,4 +27,19 @@ func main() {
 	fmt.Println(myMap2)
 	delete(myMap2, "key1")
 	fmt.Println(myMap2)
+	//map is reference type
+	myMap3 := myMap2
+	myMap3["key5"] = 50000
+	myMap3["key6"] = 60000
+
+	fmt.Println(myMap3)
+	fmt.Println(myMap2)
+	key := "key5"
+	value, found := myMap3[key]
+	if found {
+		fmt.Println(value)
+	} else {
+		fmt.Println("not found value with this key")
+	}
+
 }
