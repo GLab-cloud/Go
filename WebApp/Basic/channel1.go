@@ -7,9 +7,14 @@ func main(){
 queue1:=make(chan int,10)
 go func ()  {
  for i:=0;i<10;i++{
-  queue1<-i
+	if i>5 {
+		close(queue1)
+		//queue1<-100
+        break
+	} else{
+		queue1<-i
+	}
  }
- close(queue1)
 
 }()
 for value:=range queue1{
