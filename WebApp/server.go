@@ -15,6 +15,7 @@ func main() {
 // 	http.HandleFunc("/",helloWorldPage)
 // 	http.ListenAndServe(":8080",nil)
 e:=echo.New()
+//Init(e)
 e.GET("/",func(c echo.Context) error{
 	return c.String(http.StatusOK,"Hello, World")
 })
@@ -25,6 +26,10 @@ e.GET("/show", show)
 e.Logger.Fatal(e.Start(":1323"))
 //e.POST("/users", saveUser)
 
+}
+
+func Init(e *echo.Echo) {
+	panic("unimplemented")
 }
 // e.GET("/users/:id", getUser)
 func getUser(c echo.Context) error {
