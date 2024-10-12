@@ -20,11 +20,7 @@ func HandleSignUp(c echo.Context) error {
 		Age      int `json:"age"`
 	}
 	user := User{
-<<<<<<< HEAD
 		EmailUser:    "tr.gmail.com",
-=======
-		Emailuser:    "tr.gmail.com",
->>>>>>> de2cee26c912ddc6858bb6fae66b60120b63731b
 		FullName: "Superman",
 		Age:      90,
 	}
