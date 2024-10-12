@@ -2,6 +2,7 @@ package main
 
 import (
 	//"fmt"
+	"github-trend-BE/handler"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -18,14 +19,14 @@ e:=echo.New()
 //Init(e)
 e.GET("/",welcome)
 //users APIs
-e.GET("/user/sign-in",handleSignIn)
-e.GET("/user/sign-up",handleSignUp)
+e.GET("/user/sign-in",handler.HandleSignIn)
+e.GET("/user/sign-up",handler.HandleSignUp)
 
 e.GET("/users/:id", getUser)
 //e.PUT("/users/:id", updateUser)
 //e.DELETE("/users/:id", deleteUser)
 e.GET("/show", show)
-e.Logger.Fatal(e.Start(":1323"))
+e.Logger.Fatal(e.Start(":1000"))
 //e.POST("/users", saveUser)
 
 }
@@ -41,12 +42,7 @@ func getUser(c echo.Context) error {
 	id := c.Param("id")
   return c.String(http.StatusOK, id)
 }
-func handleSignIn (c echo.Context) error{
-	return c.String(http.StatusOK,"welcome to Sign In")
-}
-func handleSignUp (c echo.Context) error{
-	return c.String(http.StatusOK,"welcome to Sign Up")
-}
+
 
 //e.GET("/show", show)
 func show(c echo.Context) error {
