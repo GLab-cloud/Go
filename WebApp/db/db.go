@@ -3,8 +3,8 @@ package db
 import (
 	"fmt"
 	//"database/sql"
-	_ "github.com/lib/pq"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 	"github.com/labstack/gommon/log"
 )
 
