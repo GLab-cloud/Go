@@ -2,11 +2,12 @@ package db
 
 import (
 	"fmt"
-    _"github.com/lib/pq"
+	//"database/sql"
+	_ "github.com/lib/pq"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/gommon/log"
 )
- 
+
 type Sql struct {
 	Db       *sqlx.DB
 	Host     string
