@@ -2,10 +2,14 @@ module github-trend-BE
 
 go 1.20
 
-require github.com/labstack/echo v3.3.10+incompatible
+require (
+	github.com/jmoiron/sqlx v1.4.0
+	github.com/labstack/echo v3.3.10+incompatible
+	github.com/labstack/gommon v0.4.2
+)
 
 require (
-	github.com/labstack/gommon v0.4.2 // indirect
+	github.com/lib/pq v1.10.9 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect

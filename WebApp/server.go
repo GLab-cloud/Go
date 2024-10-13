@@ -2,6 +2,7 @@ package main
 
 import (
 	//"fmt"
+	"github-trend-BE/db"
 	"github-trend-BE/handler"
 	"net/http"
 
@@ -15,6 +16,19 @@ import (
 func main() {
 // 	http.HandleFunc("/",helloWorldPage)
 // 	http.ListenAndServe(":8080",nil)
+
+//connect Db
+sql:=&db.Sql{
+	Host:"localhost",
+	Port: 5433,
+	UserName: "postgres",
+	Password: "123",
+	DbName:"golang",
+}
+sql.Connect()
+defer sql.Close()
+
+//start server
 e:=echo.New()
 //Init(e)
 e.GET("/",handler.Welcome)
