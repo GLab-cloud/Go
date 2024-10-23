@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"github-trend-BE/model"
+	"github-trend-BE/model/req"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -16,6 +18,14 @@ func (u *UserHandler)HandleSignIn(c echo.Context) error {
 	})
 }
 func (u *UserHandler)HandleSignUp(c echo.Context) error {
+    req:=req.ReqSignUp{}
+if err:=c.Bind(&req);err!=nil{
+return  c.JSON(http.StatusBadRequest,model.Response{
+	StatusCode:http.StatusBadRequest,
+    Message:err.Error(),
+    Data:nil,
+})
+}
 	type User struct {
 		EmailUser    string `json:"email"`
 		FullName string `json:"name"`

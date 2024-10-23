@@ -2,7 +2,6 @@ package router
 
 import (
 	"github-trend-BE/handler"
-	"os/user"
 
 	"github.com/labstack/echo"
 )
