@@ -5,15 +5,17 @@ import (
 
 	"github.com/labstack/echo"
 )
+type UserHandler struct {
 
-func HandleSignIn(c echo.Context) error {
+}
+func (u *UserHandler)HandleSignIn(c echo.Context) error {
 	//return c.String(http.StatusOK,"welcome to Sign In")
 	return c.JSON(http.StatusOK, echo.Map{
 		"userName": "Batman",
 		"email":    "tr.gmail.com",
 	})
 }
-func HandleSignUp(c echo.Context) error {
+func (u *UserHandler)HandleSignUp(c echo.Context) error {
 	type User struct {
 		EmailUser    string `json:"email"`
 		FullName string `json:"name"`

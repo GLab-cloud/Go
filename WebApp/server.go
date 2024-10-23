@@ -32,9 +32,6 @@ defer sql.Close()
 e:=echo.New()
 //Init(e)
 e.GET("/",handler.Welcome)
-//users APIs
-e.GET("/user/sign-in",handler.HandleSignIn)
-e.GET("/user/sign-up",handler.HandleSignUp)
 
 e.GET("/users/:id", getUser)
 //e.PUT("/users/:id", updateUser)
