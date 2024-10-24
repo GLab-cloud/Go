@@ -1,12 +1,15 @@
 package handler
 
 import (
+	"github-trend-BE/log"
 	"github-trend-BE/model"
-	"github-trend-BE/model/req"
+	req2 "github-trend-BE/model/req"
 	"github-trend-BE/security"
+
 	"net/http"
 
 	validator "github.com/go-playground/validator/v10"
+	"github.com/google/uuid"
 	"github.com/labstack/echo"
 )
 
@@ -22,8 +25,10 @@ func (u *UserHandler) HandleSignIn(c echo.Context) error {
 }
 func (u *UserHandler) HandleSignUp(c echo.Context) error {
 	//bind request body to struct req
-	req := req.ReqSignUp{}
+	req := req2.ReqSignUp{}
+
 	if err := c.Bind(&req); err != nil {
+		log.Error(err.Error())
 		return c.JSON(http.StatusBadRequest, model.Response{
 			StatusCode: http.StatusBadRequest,
 			Message:    err.Error(),
@@ -34,6 +39,8 @@ func (u *UserHandler) HandleSignUp(c echo.Context) error {
 	validate := validator.New()
 
 	if err := validate.Struct(req); err != nil {
+		log.Error(err.Error())
+
 		return c.JSON(http.StatusBadRequest, model.Response{
 			StatusCode: http.StatusBadRequest,
 			Message:    err.Error(),
@@ -44,6 +51,16 @@ func (u *UserHandler) HandleSignUp(c echo.Context) error {
 	//USE BCRYPT NOT MD5 TO HASH PASSWORD
 	hash := security.HashAndSalt([]byte(req.Password))
 	role := model.MEMBER.String()
+	userId, err := uuid.NewUUID()
+	if err != nil {
+		log.Error(err.Error())
+
+		return c.JSON(http.StatusForbidden, model.Response{
+			StatusCode: http.StatusForbidden,
+			Message:    err.Error(),
+			Data:       nil,
+		})
+	}
 
 	type User struct {
 		EmailUser string `json:"email"`
