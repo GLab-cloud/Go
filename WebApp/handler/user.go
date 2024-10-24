@@ -3,6 +3,7 @@ package handler
 import (
 	"github-trend-BE/model"
 	"github-trend-BE/model/req"
+	"github-trend-BE/security"
 	"net/http"
 
 	validator "github.com/go-playground/validator/v10"
@@ -20,6 +21,7 @@ func (u *UserHandler) HandleSignIn(c echo.Context) error {
 	})
 }
 func (u *UserHandler) HandleSignUp(c echo.Context) error {
+	//bind request body to struct req
 	req := req.ReqSignUp{}
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, model.Response{
@@ -38,6 +40,10 @@ func (u *UserHandler) HandleSignUp(c echo.Context) error {
 			Data:       nil,
 		})
 	}
+
+	//USE BCRYPT NOT MD5 TO HASH PASSWORD
+	hash := security.HashAndSalt([]byte(req.Password))
+	role := model.MEMBER.String()
 
 	type User struct {
 		EmailUser string `json:"email"`
