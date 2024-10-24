@@ -7,13 +7,13 @@ import (
 )
 
 type API struct {
-	e *echo.Echo
+	e           *echo.Echo
 	UserHandler handler.UserHandler
 }
-func (api *API) SetupRouter (){
-//users APIs
-api.e.GET("/user/sign-in",api.UserHandler.HandleSignIn)
-api.e.GET("/user/sign-up",api.UserHandler.HandleSignUp)
 
+func (api *API) SetupRouter() {
+	//users APIs
+	api.e.GET("/user/sign-in", api.UserHandler.HandleSignIn)
+	api.e.GET("/user/sign-up", api.UserHandler.HandleSignUp)
 
 }
