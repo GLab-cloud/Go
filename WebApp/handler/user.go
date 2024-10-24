@@ -5,6 +5,7 @@ import (
 	"github-trend-BE/model/req"
 	"net/http"
 
+	validator "github.com/go-playground/validator/v10"
 	"github.com/labstack/echo"
 )
 
@@ -27,6 +28,17 @@ func (u *UserHandler) HandleSignUp(c echo.Context) error {
 			Data:       nil,
 		})
 	}
+	//verify user - validator
+	validate := validator.New()
+
+	if err := validate.Struct(req); err != nil {
+		return c.JSON(http.StatusBadRequest, model.Response{
+			StatusCode: http.StatusBadRequest,
+			Message:    err.Error(),
+			Data:       nil,
+		})
+	}
+
 	type User struct {
 		EmailUser string `json:"email"`
 		FullName  string `json:"name"`
