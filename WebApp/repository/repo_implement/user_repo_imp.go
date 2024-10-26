@@ -38,5 +38,9 @@ if err,ok:=err.(*pq.Error);ok{
 		return user,banana.UserConflict
 	}
 }
+return user,banana.SignUpFailed
+
 }
+return user,nil
+
 }

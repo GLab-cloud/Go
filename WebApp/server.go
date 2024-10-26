@@ -4,6 +4,9 @@ import (
 	//"fmt"
 	"github-trend-BE/db"
 	"github-trend-BE/handler"
+	"github-trend-BE/repository/repo_implement"
+	"github-trend-BE/router"
+
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -30,6 +33,16 @@ func main() {
 
 	//start server
 	e := echo.New()
+	//handler
+	userHandler:=handler.UserHandler{
+		UserRepo:repo_implement.NewUserRepo(sql),
+	}
+	api:=router.API{
+  Echo: e,
+  UserHandler: userHandler,
+
+	}
+	api.SetupRouter()
 	//Init(e)
 	e.GET("/", handler.Welcome)
 

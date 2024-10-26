@@ -4,6 +4,7 @@ import (
 	"github-trend-BE/log"
 	"github-trend-BE/model"
 	req2 "github-trend-BE/model/req"
+	"github-trend-BE/repository"
 	"github-trend-BE/security"
 
 	"net/http"
@@ -14,6 +15,7 @@ import (
 )
 
 type UserHandler struct {
+	UserRepo repository.UserRepo
 }
 
 func (u *UserHandler) HandleSignIn(c echo.Context) error {
@@ -61,17 +63,38 @@ func (u *UserHandler) HandleSignUp(c echo.Context) error {
 			Data:       nil,
 		})
 	}
+	user := model.User{
+		UserId:   userId.String(),
+		FullName: req.FullName,
+		Email:    req.Email,
+		Password: hash,
+		Role:     role,
+		Token:    "",
+	}
 
-	type User struct {
-		EmailUser string `json:"email"`
-		FullName  string `json:"name"`
-		Age       int    `json:"age"`
-	}
-	user := User{
-		EmailUser: "tr.gmail.com",
-		FullName:  "Superman",
-		Age:       90,
-	}
+	user, err = u.UserRepo.SaveUser(c.Request().Context(), user)
+	// type User struct {
+	// 	EmailUser string `json:"email"`
+	// 	FullName  string `json:"name"`
+	// 	Age       int    `json:"age"`
+	// }
+	// user := User{
+	// 	EmailUser: "tr.gmail.com",
+	// 	FullName:  "Superman",
+	// 	Age:       90,
+	// }
 	//return c.String(http.StatusOK,"welcome to Sign Up")
-	return c.JSON(http.StatusOK, user)
+	if err != nil {
+		return c.JSON(http.StatusConflict, model.Response{
+			StatusCode: http.StatusConflict,
+			Message:    err.Error(),
+			Data:       nil,
+		})
+	}
+	//return c.JSON(http.StatusOK, user)
+	return c.JSON(http.StatusOK, model.Response{
+		StatusCode: http.StatusOK,
+		Message:    "Sign up user - insert DB successfull!",
+		Data:       user,
+	})
 }
