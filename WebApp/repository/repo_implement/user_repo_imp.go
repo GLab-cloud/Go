@@ -18,5 +18,10 @@ func NewUserRepo(sql *db.Sql ) repository.UserRepo{
 
 }
 func (u *UserRepoImp)SaveUser(context context.Context, user model.User) (model.User,error){
-
+statement := `
+INSERT INTO users(user_id, email, password, role, full_name, created_at, updated_at)
+VALUES(:user_id, :email, :password, :role, :full_name, :created_at, :updated_at)
+`
+user.CreatedAt = time.Now()
+user.UpdatedAt = time.Now()
 }
