@@ -10,6 +10,10 @@ type User struct {
 	Role      string    `json:"role,omitempty" db:"role, omitempty"`
 	CreatedAt time.Time `json:"-" db:"created_at, omitempty"`
 	UpdatedAt time.Time `json:"-" db:"updated_at, omitempty"`
-	Token     string    `json:"token,omitempty"`
-
+	Token     string `json:"-" `
 }
+//{
+    //"FullName":"trung",
+    //"Email":"tr.gmail",
+    //"Password":"123"
+//}

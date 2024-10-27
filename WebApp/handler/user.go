@@ -91,6 +91,7 @@ func (u *UserHandler) HandleSignUp(c echo.Context) error {
 			Data:       nil,
 		})
 	}
+	user.Password=""
 	//return c.JSON(http.StatusOK, user)
 	return c.JSON(http.StatusOK, model.Response{
 		StatusCode: http.StatusOK,

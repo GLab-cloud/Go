@@ -8,7 +8,7 @@ import (
 	"github-trend-BE/repository"
 	"time"
 
-	pq "github.com/lib/pq"
+	"github.com/lib/pq"
 
 	"github-trend-BE/banana"
 )
