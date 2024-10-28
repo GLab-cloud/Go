@@ -2,9 +2,11 @@ package repo_implement
 
 import (
 	"context"
+	"database/sql"
 	"github-trend-BE/db"
 	"github-trend-BE/log"
 	"github-trend-BE/model"
+	"github-trend-BE/model/req"
 	"github-trend-BE/repository"
 	"time"
 
@@ -42,5 +44,20 @@ return user,banana.SignUpFailed
 
 }
 return user,nil
+
+}
+func (u *UserRepoImpl) CheckLogin(context context.Context, loginReq req.ReqSignIn) (model.User, error) {
+	var user = model.User{}
+	err := u.sql.Db.GetContext(context, &user, "SELECT * FROM users WHERE email=$1", loginReq.Email)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return user, banana.UserNotFound
+		}
+		log.Error(err.Error())
+		return user, err
+	}
+
+	return user, nil
 
 }
