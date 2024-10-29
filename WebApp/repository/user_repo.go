@@ -1,15 +1,13 @@
 package repository
-import(
+
+import (
 	"context"
 	//"github-trend-BE/log"
 	"github-trend-BE/model"
-
+	"github-trend-BE/model/req"
 )
 
 type UserRepo interface {
-	SaveUser(context context.Context, user model.User) (model.User,error)
-	CheckLogin(
-		context context.Context,
-		loginReq model.req.ReqSignIn,
-	) (model.User, error)
+	SaveUser(context context.Context, user model.User) (model.User, error)
+	CheckLogin(context context.Context, loginReq req.ReqSignIn) (model.User, error)
 }
