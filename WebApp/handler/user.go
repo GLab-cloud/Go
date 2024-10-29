@@ -34,14 +34,14 @@ func (u *UserHandler) HandleSignIn(c echo.Context) error {
 		})
 	}
 
-	if err := c.Validate(req); err != nil {
-		log.Error(err.Error())
-		return c.JSON(http.StatusBadRequest, model.Response{
-			StatusCode: http.StatusBadRequest,
-			Message:    err.Error(),
-			Data:       nil,
-		})
-	}
+	// if err := c.Validate(req); err != nil {
+	// 	log.Error(err.Error())
+	// 	return c.JSON(http.StatusBadRequest, model.Response{
+	// 		StatusCode: http.StatusBadRequest,
+	// 		Message:    err.Error(),
+	// 		Data:       nil,
+	// 	})
+	// }
 
 	user, err := u.UserRepo.CheckLogin(c.Request().Context(), req)
 	if err != nil {
