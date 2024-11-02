@@ -2,6 +2,7 @@ package router
 
 import (
 	"github-trend-BE/handler"
+	"github-trend-BE/middleware"
 
 	"github.com/labstack/echo"
 	//"github.com/labstack/echo/middleware"
@@ -19,4 +20,5 @@ func (api *API) SetupRouter() {
 	g:=api.Echo.Group("/user")//middleware.AddTrailingSlash())
 	g.POST("/sign-in", api.UserHandler.HandleSignIn, adminMiddleware.IsAdmin())
 	g.POST("/sign-up", api.UserHandler.HandleSignUp)
+	g.POST("/profile", api.UserHandler.Profile, middleware.JWTMiddleware())
 }

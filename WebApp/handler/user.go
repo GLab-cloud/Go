@@ -165,3 +165,6 @@ func (u *UserHandler) HandleSignUp(c echo.Context) error {
 		Data:       user,
 	})
 }
+func (u *UserHandler) Profile (c echo.Context) error {
+	return nil
+}
