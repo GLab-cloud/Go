@@ -33,6 +33,10 @@ func main() {
 
 	//start server
 	e := echo.New()
+
+    //middleware
+	e.Use(middleware.AddTrailingSlash())
+
 	//handler
 	userHandler := handler.UserHandler{
 		UserRepo: repo_implement.NewUserRepo(sql),
