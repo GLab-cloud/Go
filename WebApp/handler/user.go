@@ -7,7 +7,6 @@ import (
 	req2 "github-trend-BE/model/req"
 	"github-trend-BE/repository"
 	"github-trend-BE/security"
-
 	"net/http"
 
 	validator "github.com/go-playground/validator/v10"
@@ -62,7 +61,18 @@ func (u *UserHandler) HandleSignIn(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-
+	//gen token
+	token,err:=security.GenToken(user)
+	if err!=nil{
+		log.Error(err.Error())
+		return c.JSON(http.StatusInternalServerError, model.Response{
+			StatusCode: http.StatusInternalServerError,
+			Message:    err.Error(),
+			Data:       nil,
+		})
+	}
+	user.Token=token
+	user.Password = ""
 	return c.JSON(http.StatusOK, model.Response{
 		StatusCode: http.StatusOK,
 		Message:    "Sign in successfull!",
@@ -136,6 +146,17 @@ func (u *UserHandler) HandleSignUp(c echo.Context) error {
 			Data:       nil,
 		})
 	}
+	//gen token
+	token,err:=security.GenToken(user)
+	if err!=nil{
+		log.Error(err.Error())
+		return c.JSON(http.StatusInternalServerError, model.Response{
+			StatusCode: http.StatusInternalServerError,
+			Message:    err.Error(),
+			Data:       nil,
+		})
+	}
+	user.Token=token
 	user.Password = ""
 	//return c.JSON(http.StatusOK, user)
 	return c.JSON(http.StatusOK, model.Response{
