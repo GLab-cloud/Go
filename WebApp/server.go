@@ -35,7 +35,8 @@ func main() {
 	e := echo.New()
 
     //middleware
-	e.Use(middleware.AddTrailingSlash())
+	//e.Use(middleware.AddTrailingSlash()) - all APIs
+
 
 	//handler
 	userHandler := handler.UserHandler{

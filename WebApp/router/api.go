@@ -13,6 +13,8 @@ type API struct {
 
 func (api *API) SetupRouter() {
 	//users APIs
-	api.Echo.POST("/user/sign-in", api.UserHandler.HandleSignIn)
-	api.Echo.POST("/user/sign-up", api.UserHandler.HandleSignUp)
+	//group
+	g:=api.Echo.Group('/user',middleware.AddTrailingSlash())
+	g.POST("/sign-in", api.UserHandler.HandleSignIn)
+	g.POST("/sign-up", api.UserHandler.HandleSignUp)
 }
