@@ -4,6 +4,8 @@ import (
 	"github-trend-BE/handler"
 
 	"github.com/labstack/echo"
+	//"github.com/labstack/echo/middleware"
+	adminMiddleware "github-trend-BE/middleware"
 )
 
 type API struct {
@@ -14,7 +16,7 @@ type API struct {
 func (api *API) SetupRouter() {
 	//users APIs
 	//group
-	g:=api.Echo.Group('/user',middleware.AddTrailingSlash())
-	g.POST("/sign-in", api.UserHandler.HandleSignIn)
+	g:=api.Echo.Group("/user")//middleware.AddTrailingSlash())
+	g.POST("/sign-in", api.UserHandler.HandleSignIn, adminMiddleware.IsAdmin())
 	g.POST("/sign-up", api.UserHandler.HandleSignUp)
 }

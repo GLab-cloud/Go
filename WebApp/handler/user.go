@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github-trend-BE/log"
+	"github-trend-BE/middleware"
 	"github-trend-BE/model"
 	req2 "github-trend-BE/model/req"
 	"github-trend-BE/repository"
@@ -24,15 +25,15 @@ func (u *UserHandler) HandleSignIn(c echo.Context) error {
 	// 	"userName": "Batman",
 	// 	"email":    "tr.gmail.com",
 	// })
-	req := req2.ReqSignIn{}
-	if err := c.Bind(&req); err != nil {
-		log.Error(err.Error())
-		return c.JSON(http.StatusBadRequest, model.Response{
-			StatusCode: http.StatusBadRequest,
-			Message:    err.Error(),
-			Data:       nil,
-		})
-	}
+	// req := req2.ReqSignIn{}
+	// if err := c.Bind(&req); err != nil {
+	// 	log.Error(err.Error())
+	// 	return c.JSON(http.StatusBadRequest, model.Response{
+	// 		StatusCode: http.StatusBadRequest,
+	// 		Message:    err.Error(),
+	// 		Data:       nil,
+	// 	})
+	// }
 
 	// if err := c.Validate(req); err != nil {
 	// 	log.Error(err.Error())
@@ -42,8 +43,9 @@ func (u *UserHandler) HandleSignIn(c echo.Context) error {
 	// 		Data:       nil,
 	// 	})
 	// }
-
-	user, err := u.UserRepo.CheckLogin(c.Request().Context(), req)
+	//req := req2.ReqSignIn{}
+	//c.Bind(&req)
+	user, err := u.UserRepo.CheckLogin(c.Request().Context(), middleware.Req)
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, model.Response{
 			StatusCode: http.StatusUnauthorized,
@@ -52,7 +54,7 @@ func (u *UserHandler) HandleSignIn(c echo.Context) error {
 		})
 	}
 
-	isTheSame := security.ComparePasswords(user.Password, []byte(req.Password))
+	isTheSame := security.ComparePasswords(user.Password, []byte(middleware.Req.Password))
 	if !isTheSame {
 		return c.JSON(http.StatusUnauthorized, model.Response{
 			StatusCode: http.StatusUnauthorized,
