@@ -200,8 +200,45 @@ func (u *UserHandler) Profile (c echo.Context) error {
     user.Token=tokenData.Raw
 	return c.JSON(http.StatusOK, model.Response{
 		StatusCode: http.StatusOK,
-		Message:    "get user profile from DB successfull!",
+		Message:    "Get user profile from DB successfull!",
 		Data:       user,
 	})
 
+}
+func (u *UserHandler) UpdateProfile(c echo.Context) error {
+	req := req2.ReqUpdateUser{}
+	if err := c.Bind(&req); err != nil {
+		return err
+	}
+
+	// validate
+	err := c.Validate(req)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, model.Response{
+			StatusCode: http.StatusBadRequest,
+			Message:    err.Error(),
+		})
+	}
+    //get UserId from auth JWT token
+	token := c.Get("user").(*jwt.Token)
+	claims := token.Claims.(*model.JwtCustomClaims)
+	user := model.User{
+		UserId:   claims.UserId,
+		FullName: req.FullName,
+		Email:    req.Email,
+	}
+
+	user, err = u.UserRepo.UpdateUser(c.Request().Context(), user)
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, model.Response{
+			StatusCode: http.StatusUnprocessableEntity,
+			Message:    err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusCreated, model.Response{
+		StatusCode: http.StatusCreated,
+		Message:    "Update user profile to DB successfull!",
+		Data:       user,
+	})
 }
