@@ -21,4 +21,5 @@ func (api *API) SetupRouter() {
 	g.POST("/sign-in", api.UserHandler.HandleSignIn, adminMiddleware.IsAdmin())
 	g.POST("/sign-up", api.UserHandler.HandleSignUp)
 	g.POST("/profile", api.UserHandler.Profile, middleware.JWTMiddleware())
+	api.Echo.GET("/user/profile", api.UserHandler.Profile, middleware.JWTMiddleware())
 }

@@ -29,7 +29,7 @@ func IsAdmin() echo.MiddlewareFunc {
 			Data:       nil,
 		})
 	}
-	if Req.Email!="admin@gmail.com" {
+	if Req.Email!="admin1@gmail.com" {
 		return ctx.JSON(http.StatusBadRequest, model.Response{
 			StatusCode: 400,
 			Message:    "User is not admin",

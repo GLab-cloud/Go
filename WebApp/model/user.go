@@ -10,7 +10,7 @@ type User struct {
 	Role      string    `json:"-" db:"role, omitempty"`
 	CreatedAt time.Time `json:"-" db:"created_at, omitempty"`
 	UpdatedAt time.Time `json:"-" db:"updated_at, omitempty"`
-	Token     string `json:"token,omitempty" `
+	Token     string    `json:"token,omitempty" `
 }
 //{
     //"FullName":"trung",

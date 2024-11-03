@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"github-trend-BE/banana"
 	"github-trend-BE/log"
 	"github-trend-BE/middleware"
 	"github-trend-BE/model"
@@ -10,6 +11,7 @@ import (
 	"net/http"
 
 	//validator "github.com/go-playground/validator/v10"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
 	"github.com/labstack/echo"
 )
@@ -104,7 +106,7 @@ func (u *UserHandler) HandleSignUp(c echo.Context) error {
 	// 		Data:       nil,
 	// 	})
 	// }
-	
+
 	//verify user
 	if err := c.Validate(req); err != nil {
 		log.Error(err.Error())
@@ -176,5 +178,30 @@ func (u *UserHandler) HandleSignUp(c echo.Context) error {
 	})
 }
 func (u *UserHandler) Profile (c echo.Context) error {
-	return nil
+	//return nil
+	tokenData:=c.Get("user").(*jwt.Token)
+    claims:=tokenData.Claims.(*model.JwtCustomClaims)
+	user,err:=u.UserRepo.SelectUserWithId(c.Request().Context(), claims.UserId)
+	if err != nil {
+		if err == banana.UserNotFound {
+			return c.JSON(http.StatusNotFound, model.Response{
+				StatusCode: http.StatusNotFound,
+				Message:    err.Error(),
+				Data:       nil,
+			})
+		}
+
+		return c.JSON(http.StatusInternalServerError, model.Response{
+			StatusCode: http.StatusInternalServerError,
+			Message:    err.Error(),
+			Data:       nil,
+		})
+	}
+    user.Token=tokenData.Raw
+	return c.JSON(http.StatusOK, model.Response{
+		StatusCode: http.StatusOK,
+		Message:    "get user profile from DB successfull!",
+		Data:       user,
+	})
+
 }
