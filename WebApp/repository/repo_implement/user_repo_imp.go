@@ -37,7 +37,7 @@ VALUES(:user_id, :email, :password, :role, :full_name, :created_at, :updated_at)
 		log.Error(err.Error())
 		if err, ok := err.(*pq.Error); ok {
 			//	"23505": "unique_violation",
-			if err.Code.Name() == "unique violation" {
+			if err.Code.Name() == "unique_violation" {
 				return user, banana.UserConflict
 			}
 		}

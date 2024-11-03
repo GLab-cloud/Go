@@ -4,6 +4,7 @@ import (
 	//"fmt"
 	"github-trend-BE/db"
 	"github-trend-BE/handler"
+	"github-trend-BE/helper"
 	"github-trend-BE/repository/repo_implement"
 	"github-trend-BE/router"
 
@@ -36,6 +37,11 @@ func main() {
 
     //middleware
 	//e.Use(middleware.AddTrailingSlash()) - all APIs
+
+	//struct_validator
+	struct_validator:=helper.NewStructValidator()
+	struct_validator.RegisterValidate()
+	e.Validator=struct_validator
 
 	//handler
 	userHandler := handler.UserHandler{

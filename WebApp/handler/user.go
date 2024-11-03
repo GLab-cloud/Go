@@ -9,7 +9,7 @@ import (
 	"github-trend-BE/security"
 	"net/http"
 
-	validator "github.com/go-playground/validator/v10"
+	//validator "github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/labstack/echo"
 )
@@ -34,14 +34,14 @@ func (u *UserHandler) HandleSignIn(c echo.Context) error {
 	// 	})
 	// }
 
-	// if err := c.Validate(req); err != nil {
-	// 	log.Error(err.Error())
-	// 	return c.JSON(http.StatusBadRequest, model.Response{
-	// 		StatusCode: http.StatusBadRequest,
-	// 		Message:    err.Error(),
-	// 		Data:       nil,
-	// 	})
-	// }
+	if err := c.Validate(middleware.Req); err != nil {
+		log.Error(err.Error())
+		return c.JSON(http.StatusBadRequest, model.Response{
+			StatusCode: http.StatusBadRequest,
+			Message:    err.Error(),
+			Data:       nil,
+		})
+	}
 	//req := req2.ReqSignIn{}
 	//c.Bind(&req)
 	user, err := u.UserRepo.CheckLogin(c.Request().Context(), middleware.Req)
@@ -93,11 +93,21 @@ func (u *UserHandler) HandleSignUp(c echo.Context) error {
 		})
 	}
 	//verify user - validator
-	validate := validator.New()
+	// validate := validator.New()
 
-	if err := validate.Struct(req); err != nil {
+	// if err := validate.Struct(req); err != nil {
+	// 	log.Error(err.Error())
+
+	// 	return c.JSON(http.StatusBadRequest, model.Response{
+	// 		StatusCode: http.StatusBadRequest,
+	// 		Message:    err.Error(),
+	// 		Data:       nil,
+	// 	})
+	// }
+	
+	//verify user
+	if err := c.Validate(req); err != nil {
 		log.Error(err.Error())
-
 		return c.JSON(http.StatusBadRequest, model.Response{
 			StatusCode: http.StatusBadRequest,
 			Message:    err.Error(),
