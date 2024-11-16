@@ -2,7 +2,8 @@ syntax = "proto3";
 
 package user;
 // init package, service User
-option go_package = "/Userservice";
+option go_package = "/MicroServices/User";
+//gen go code cmd: ./protoc --go-grpc_out=. user.proto
 service User {
     rpc GetUsers(GetRequest) returns (GetResponse);
     // use rpc to direct call method of instance
