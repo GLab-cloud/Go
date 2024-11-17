@@ -2,6 +2,8 @@ module grpc
 
 go 1.20
 
+require golang.org/x/net v0.31.0
+
 require (
 	//github.com/astaxie/beego v1.12.2
 	//github.com/go-sql-driver/mysql v1.5.0
