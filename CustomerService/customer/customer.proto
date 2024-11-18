@@ -1,7 +1,8 @@
 syntax = "proto3";
 package customer;
-option go_package = "/pbCustomer";
+option go_package="/customer";
 
+// protoc --go_out=. --go-grpc_out=. customer/customer.proto
 
 // The Customer service definition.
 service Customer {
