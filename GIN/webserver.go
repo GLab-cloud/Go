@@ -8,7 +8,10 @@ import (
 )
 func main(){
  	r:=gin.Default()
+	r.Use(CORSMiddleware())
 	r.Use(MyCustomMiddleware)
+	r.Use(NewCustomMiddleware())
+
 	r.GET("/",func (context *gin.Context){
 		// 		context.String(http.StatusOK,"Ping")
 		//  })
@@ -62,5 +65,35 @@ func getDetail(context *gin.Context){
 //Middleware
 func MyCustomMiddleware(context *gin.Context){
 	log.Println("I'm a global middleware")
-	context.Next()
+	if(true){ // check if authentication condition,...
+		context.Next() // CustomMiddleware -> next handler
+	}
+}
+func NewCustomMiddleware() gin.HandlerFunc{
+	return func(ctx *gin.Context) {
+		log.Println("I'm a new global middleware - HandlerFunc ")
+
+		if(true){ // check if authentication condition,...
+			ctx.Next() // CustomMiddleware -> next handler
+		}
+	}
+}
+//CORS Middleware
+func CORSMiddleware() gin.HandlerFunc {
+    return func(c *gin.Context) {
+		log.Println("I'm a CORS Middleware - HandlerFunc ")
+
+        c.Writer.Header().Set("Content-Type", "application/json")
+        c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+        c.Writer.Header().Set("Access-Control-Max-Age", "86400")
+        c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
+        c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, X-Max")
+        c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+
+        if c.Request.Method == "OPTIONS" {
+            c.AbortWithStatus(200)
+        } else {
+            c.Next()
+        }
+    }
 }
