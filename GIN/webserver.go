@@ -57,6 +57,7 @@ func main(){
 	{
 		v1:=api.Group("/v1")
 		{
+			v1.Use(MyGroupV1Middleware())
 			v1.GET("/ping",func(context *gin.Context){
 				context.JSON(http.StatusOK,gin.H{
 					"message ":"Hello from api/v1/ping",
@@ -70,6 +71,7 @@ func main(){
 		}
 		v2:=api.Group("/v2")
 		{
+			v2.Use(MyGroupV2Middleware())
 			v2.GET("/ping",func(context *gin.Context){
 				context.JSON(http.StatusOK,gin.H{
 					"message ":"Hello from api/v2/ping",
@@ -126,4 +128,17 @@ func CORSMiddleware() gin.HandlerFunc {
             c.Next()
         }
     }
+}
+//Group Middleware
+func MyGroupV1Middleware() gin.HandlerFunc{
+	return func(ctx *gin.Context) {
+		log.Println("I'm in a group v1 middleware")
+		ctx.Next()
+	}
+}
+func MyGroupV2Middleware() gin.HandlerFunc{
+	return func(ctx *gin.Context) {
+		log.Println("I'm in a group v2 middleware")
+		ctx.Next()
+	}
 }
