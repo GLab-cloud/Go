@@ -8,6 +8,7 @@ import (
 )
 func main(){
  	r:=gin.Default()
+	r.Static("/static_file","./assets")
 	r.Use(CORSMiddleware())
 	r.Use(MyCustomMiddleware)
 	r.Use(NewCustomMiddleware())
