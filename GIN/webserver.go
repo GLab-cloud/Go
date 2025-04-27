@@ -52,6 +52,36 @@ func main(){
 
 	r.GET("/detail/:id",getDetail)
 
+	//Group API
+	api:=r.Group("/api")
+	{
+		v1:=api.Group("/v1")
+		{
+			v1.GET("/ping",func(context *gin.Context){
+				context.JSON(http.StatusOK,gin.H{
+					"message ":"Hello from api/v1/ping",
+				})
+			})
+			v1.GET("/pong",func(context *gin.Context){
+				context.JSON(http.StatusOK,gin.H{
+					"message ":"Hello from api/v1/pong",
+				})
+			})
+		}
+		v2:=api.Group("/v2")
+		{
+			v2.GET("/ping",func(context *gin.Context){
+				context.JSON(http.StatusOK,gin.H{
+					"message ":"Hello from api/v2/ping",
+				})
+			})
+			v2.GET("/pong",func(context *gin.Context){
+				context.JSON(http.StatusOK,gin.H{
+					"message ":"Hello from api/v2/pong",
+				})
+			})
+		}
+	}
 	r.Run(":3333")
 }
 func getDetail(context *gin.Context){
