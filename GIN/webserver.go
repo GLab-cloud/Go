@@ -99,6 +99,22 @@ func main(){
 	})
 
 	//curl -F file=@chuctet.jpg http://localhost:3333/upload
+
+	//upload multiple file
+	r.MaxMultipartMemory=8<<20 //8 Mb
+	r.POST("/upload_multiple_file",func (context *gin.Context){
+		//multipart form
+		form,_:=context.MultipartForm()
+		files:=form.File["upload[]"]
+		for _,file:= range files{
+			log.Println(file.Filename)
+			//upload to dest
+			context.SaveUploadedFile(file,"./assets/upload/"+file.Filename)
+		}
+		context.String(http.StatusOK,fmt.Sprintf("'%d' files uploaded!",len(files)))
+	})
+
+	//curl http://localhost:3333/upload_multiple_file -F 'upload[]=@chuctet.jpg' -F 'upload[]=@script.js' -F 'upload[]=@style.css'
 	r.Run(":3333")
 }
 func getDetail(context *gin.Context){
