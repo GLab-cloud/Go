@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -9,7 +10,7 @@ import (
 func main(){
  	r:=gin.Default()
 	r.Static("/static_file","./assets")
-	r.Use(CORSMiddleware())
+	//r.Use(CORSMiddleware())
 	r.Use(MyCustomMiddleware)
 	r.Use(NewCustomMiddleware())
 
@@ -85,6 +86,19 @@ func main(){
 			})
 		}
 	}
+	//upload file
+	r.MaxMultipartMemory=8<<20 //8 Mb
+	r.POST("/upload",func (context *gin.Context){
+		//single file
+		file,_:=context.FormFile("file")
+		log.Println(file.Filename)
+		//upload to dest
+		context.SaveUploadedFile(file,"./assets/upload/"+file.Filename)
+		context.String(http.StatusOK,fmt.Sprintf("'%s' uploaded!",file.Filename))
+
+	})
+
+	//curl -F file=@chuctet.jpg http://localhost:3333/upload
 	r.Run(":3333")
 }
 func getDetail(context *gin.Context){
