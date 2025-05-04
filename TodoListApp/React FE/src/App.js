@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {
+    useState
+} from 'react';
 import { Button, Input } from 'antd';
 const list = [{
-        id: 1,
+        id: 0,
         title: 'Code'
     },
     {
@@ -14,6 +16,8 @@ const list = [{
 ]
 
 function App() {
+    const [search, setSearch] = useState('')
+    console.log(search)
     const renderList = () => {
         const l = list.map(item => {
             return ( <
@@ -26,7 +30,8 @@ function App() {
             )
         })
         l.push( <
-            Button onClick = { handleAdd }
+            Button key = {-1 }
+            onClick = { handleAdd }
             type = "primary" > Add job < /Button>
         )
         return l
@@ -37,7 +42,13 @@ function App() {
     return ( <
         div className = 'container' >
         <
-        Input placeholder = "please enter something..." / >
+        Input value = {
+            search
+        }
+        onChange = {
+            e => setSearch(e.target.value)
+        }
+        placeholder = "Search..." / >
         <
         div > {
             renderList()
