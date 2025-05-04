@@ -1,7 +1,11 @@
 import React, {
-    useState
+    //useState
 } from 'react';
 import { Button, Input } from 'antd';
+import {
+    debounce
+}
+from 'lodash';
 const list = [{
         id: 0,
         title: 'Code'
@@ -16,8 +20,8 @@ const list = [{
 ]
 
 function App() {
-    const [search, setSearch] = useState('')
-    console.log(search)
+    //const [search] = useState('')
+    //console.log(search)
     const renderList = () => {
         const l = list.map(item => {
             return ( <
@@ -39,14 +43,21 @@ function App() {
     const handleAdd = () => {
         console.log('handle Add open dialog')
     }
+    const handleSearchDebounced = debounce((q) => {
+        //call API search...
+        console.log('handleSearchDebounced', q)
+
+    }, 500)
+    const handleSearch = (e) => { handleSearchDebounced(e.target.value) }
     return ( <
         div className = 'container' >
         <
-        Input value = {
-            search
-        }
-        onChange = {
-            e => setSearch(e.target.value)
+        // Input value = {
+        //     search
+        // }
+        Input onChange = {
+            // e => setSearch(e.target.value)
+            handleSearch
         }
         placeholder = "Search..." / >
         <
