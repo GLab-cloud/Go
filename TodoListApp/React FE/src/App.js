@@ -25,14 +25,16 @@ function App() {
 
             )
         })
+        l.push( <
+            Button onClick = { handleAdd }
+            type = "primary" > Add job < /Button>
+        )
         return l
     }
     const handleAdd = () => {
-        console.log('handleAdd')
+        console.log('handle Add open dialog')
     }
-    return (
-        // <Button type="primary" > Primary Button < /Button>
-        <
+    return ( <
         div className = 'container' >
         <
         Input placeholder = "please enter something..." / >
@@ -43,8 +45,7 @@ function App() {
         } < /div>
 
         <
-        Button onClick = { handleAdd }
-        type = "primary" > Add job < /Button> < /div >
+        /div >
 
     )
 
