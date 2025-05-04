@@ -1,5 +1,17 @@
 import React from 'react';
 import { Button, Input } from 'antd';
+const list = [{
+        id: 1,
+        title: 'Code'
+    },
+    {
+        id: 1,
+        title: 'Eat'
+    }, {
+        id: 2,
+        title: 'Sleep'
+    }
+]
 
 function App() {
     return (
@@ -9,17 +21,24 @@ function App() {
         <
         Input placeholder = "please enter something..." / >
         <
-        div >
+        div > {
+            list.map(item => {
+                return ( <
+                    div key = {
+                        item.id
+                    } > {
+                        item.title
+                    } < /div>
+
+                )
+            })
+
+        } < /div>
+
         <
-        div > < div > Eat < /div>< /div >
-        <
-        div > < div > Code < /div>< /div >
-        <
-        div > < div > Sleep < /div>< /div >
-        <
-        Button type = "primary" > Add job < /Button> < /div > < /
-        div >
-    );
+        Button type = "primary" > Add job < /Button> < /div >
+
+    )
 
 }
 
