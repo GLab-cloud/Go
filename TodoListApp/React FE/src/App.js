@@ -15,7 +15,7 @@ const list = [{
 
 function App() {
     const renderList = () => {
-        return list.map(item => {
+        const l = list.map(item => {
             return ( <
                 div key = {
                     item.id
@@ -25,6 +25,10 @@ function App() {
 
             )
         })
+        return l
+    }
+    const handleAdd = () => {
+        console.log('handleAdd')
     }
     return (
         // <Button type="primary" > Primary Button < /Button>
@@ -39,7 +43,8 @@ function App() {
         } < /div>
 
         <
-        Button type = "primary" > Add job < /Button> < /div >
+        Button onClick = { handleAdd }
+        type = "primary" > Add job < /Button> < /div >
 
     )
 
