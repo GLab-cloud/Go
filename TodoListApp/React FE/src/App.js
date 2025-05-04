@@ -14,24 +14,27 @@ const list = [{
 ]
 
 function App() {
+    const renderList = () => {
+        return list.map(item => {
+            return ( <
+                div key = {
+                    item.id
+                } > {
+                    item.title
+                } < /div>
+
+            )
+        })
+    }
     return (
-        // <Button type = "primary" > Primary Button < /Button>
+        // <Button type="primary" > Primary Button < /Button>
         <
         div className = 'container' >
         <
         Input placeholder = "please enter something..." / >
         <
         div > {
-            list.map(item => {
-                return ( <
-                    div key = {
-                        item.id
-                    } > {
-                        item.title
-                    } < /div>
-
-                )
-            })
+            renderList()
 
         } < /div>
 
