@@ -6,7 +6,7 @@ import {
     debounce
 }
 from 'lodash';
-const list = [{
+const initList = [{
         id: 0,
         title: 'Code'
     },
@@ -23,6 +23,9 @@ function App() {
     //const [search] = useState('')
     //console.log(search)
     const [visible, setVisible] = useState(false)
+    const [job, setJob] = useState("")
+    const [list, setList] = useState(initList)
+
     const renderList = () => {
         const l = list.map(item => {
             return ( <
@@ -53,9 +56,16 @@ function App() {
     const handleSearch = (e) => { handleSearchDebounced(e.target.value) }
     const handleCreateModalOk = () => {
         setVisible(false)
+        setJob('')
+        const item = {
+            id: list.length,
+            title: job
+        }
+        setList([item, ...list])
     }
     const handleCreateModalCancel = () => {
         setVisible(false)
+        setJob('')
     }
     return ( <
         div className = 'container' >
@@ -80,18 +90,17 @@ function App() {
         }
         onCancel = {
             handleCreateModalCancel
-
-        } > <
-        p > Some contents... < /
-        p >
+        } >
         <
-        p > Some contents... < /
-        p >
+        div >
         <
-        p > Some contents... < /
-        p >
+        label > What do you do ? < /label> <
+        Input
+        value = { job }
+        onChange = { e => setJob(e.target.value) }
+        placeholder = "Enter something..." / >
         <
-        /
+        /div> < /
         Modal >
         <
         /
