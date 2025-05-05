@@ -1,7 +1,7 @@
 import React, {
-    //useState
+    useState
 } from 'react';
-import { Button, Input } from 'antd';
+import { Button, Input, Modal } from 'antd';
 import {
     debounce
 }
@@ -22,6 +22,7 @@ const list = [{
 function App() {
     //const [search] = useState('')
     //console.log(search)
+    const [visible, setVisible] = useState(false)
     const renderList = () => {
         const l = list.map(item => {
             return ( <
@@ -42,6 +43,7 @@ function App() {
     }
     const handleAdd = () => {
         console.log('handle Add open dialog')
+        setVisible(true)
     }
     const handleSearchDebounced = debounce((q) => {
         //call API search...
@@ -49,6 +51,12 @@ function App() {
 
     }, 500)
     const handleSearch = (e) => { handleSearchDebounced(e.target.value) }
+    const handleCreateModalOk = () => {
+        setVisible(false)
+    }
+    const handleCreateModalCancel = () => {
+        setVisible(false)
+    }
     return ( <
         div className = 'container' >
         <
@@ -64,10 +72,30 @@ function App() {
         div > {
             renderList()
 
-        } < /div>
+        } < /div> <
+        Modal title = "Create"
+        visible = { visible }
+        onOk = {
+            handleCreateModalOk
+        }
+        onCancel = {
+            handleCreateModalCancel
 
+        } > <
+        p > Some contents... < /
+        p >
         <
-        /div >
+        p > Some contents... < /
+        p >
+        <
+        p > Some contents... < /
+        p >
+        <
+        /
+        Modal >
+        <
+        /
+        div >
 
     )
 
