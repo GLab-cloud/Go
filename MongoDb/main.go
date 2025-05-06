@@ -7,6 +7,8 @@ import (
 	"github.com/GLab-cloud/Go/MongoDb/controllers"
 	"github.com/julienschmidt/httprouter"
 	"gopkg.in/mgo.v2"
+	"github.com/joho/godotenv"
+    "os"
 )
 
 func main(){
@@ -19,8 +21,9 @@ func main(){
 
 }
 func getSession() *mgo.Session{
-	MONGO_URI:="mongodb+srv://tintin:CaFHokkvtDAqxY7G@cluster0.5usukl0.mongodb.net/"
-	session, err := mgo.DialWithTimeout(MONGO_URI,60 * time.Second)
+	godotenv.Load()
+	println(os.Getenv("MONGO_URI"))
+	session, err := mgo.DialWithTimeout(os.Getenv("MONGO_URI"),60 * time.Second)
 	if err!=nil{
 		panic(err)
 	}
