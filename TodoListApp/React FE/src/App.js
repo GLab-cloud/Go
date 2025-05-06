@@ -1,7 +1,7 @@
 import React, {
     useState
 } from 'react';
-import { Button, Input, Modal } from 'antd';
+import { Input, Modal, Checkbox } from 'antd';
 import {
     debounce
 }
@@ -31,19 +31,31 @@ function App() {
             return ( <
                 div key = {
                     item.id
-                } > {
+                }
+                className = 'mt-2 border p-2' > < div > {
                     item.title
-                } < /div>
+                } < /div> <
+                div className = 'mt-1' > < Checkbox onChange = { onChange } >
+                Done < /Checkbox > < /div > < /div >
 
             )
         })
         l.push( <
-            Button key = {-1 }
+            // Button key = {-1 }
+            // onClick = { handleAdd }
+            // type = "primary"
+            // className = 'border bg-info text-white d-flex justify-content-center' >
+            // Add job < /Button>
+            div key = {-1 }
             onClick = { handleAdd }
-            type = "primary" > Add job < /Button>
+
+            className = 'mt-2 border bg-info text-white d-flex justify-content-center' >
+            Add Job < /div>
         )
         return l
     }
+    const onChange = () => {}
+
     const handleAdd = () => {
         console.log('handle Add open dialog')
         setVisible(true)
@@ -55,19 +67,24 @@ function App() {
     }, 500)
     const handleSearch = (e) => { handleSearchDebounced(e.target.value) }
     const handleCreateModalOk = () => {
-        setVisible(false)
-        setJob('')
-        const item = {
-            id: list.length,
-            title: job
+        if (job.length > 0) {
+
+            const item = {
+                id: list.length,
+                title: job
+            }
+            setList([item, ...list])
+            setVisible(false)
+            setJob('')
+                // call API set job to server Golang...
         }
-        setList([item, ...list])
+
     }
     const handleCreateModalCancel = () => {
         setVisible(false)
         setJob('')
     }
-    return ( <
+    return ( < > <
         div className = 'container' >
         <
         // Input value = {
@@ -82,8 +99,8 @@ function App() {
         div > {
             renderList()
 
-        } < /div> <
-        Modal title = "Create"
+        } < /div> < /
+        div > < Modal title = "Create A New Job"
         visible = { visible }
         onOk = {
             handleCreateModalOk
@@ -103,8 +120,7 @@ function App() {
         /div> < /
         Modal >
         <
-        /
-        div >
+        />
 
     )
 
