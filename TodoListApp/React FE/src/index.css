@@ -1,9 +1,9 @@
-.add:hover{
-    background: #b1acac !important;
+.add:hover {
+    background: #f8f4f4 !important;
     cursor: pointer;
     color: black !important;
 }
 
-.text-line-through{
+.text-line-through {
     text-decoration: line-through;
 }

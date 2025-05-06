@@ -8,14 +8,17 @@ import {
 from 'lodash';
 const initList = [{
         id: 0,
-        title: 'Code'
+        title: 'Code',
+        is_Done: true
     },
     {
         id: 1,
-        title: 'Eat'
+        title: 'Eat',
+        is_Done: false
     }, {
         id: 2,
-        title: 'Sleep'
+        title: 'Sleep',
+        is_Done: true
     }
 ]
 
@@ -32,10 +35,15 @@ function App() {
                 div key = {
                     item.id
                 }
-                className = 'mt-2 border p-2' > < div > {
+                className = 'mt-2 border p-2' >
+                <
+                div className = { item.is_Done ? 'text-line-through' : '' } > {
                     item.title
                 } < /div> <
-                div className = 'mt-1' > < Checkbox onChange = { onChange } >
+                div className = 'mt-1' > < Checkbox onChange = {
+                    () => handleChange(item)
+                }
+                checked = { item.is_Done } >
                 Done < /Checkbox > < /div > < /div >
 
             )
@@ -49,12 +57,21 @@ function App() {
             div key = {-1 }
             onClick = { handleAdd }
 
-            className = 'mt-2 border bg-info text-white d-flex justify-content-center' >
+            className = 'add mt-2 border bg-info text-white d-flex justify-content-center p-3' >
             Add Job < /div>
         )
         return l
     }
-    const onChange = () => {}
+    const handleChange = (e) => {
+        const l = list.map(element => {
+
+            if (element.id === e.id) {
+                element.is_Done = !element.is_Done
+            }
+            return element
+        })
+        setList(l)
+    }
 
     const handleAdd = () => {
         console.log('handle Add open dialog')
@@ -94,9 +111,10 @@ function App() {
             // e => setSearch(e.target.value)
             handleSearch
         }
-        placeholder = "Search..." / >
+        placeholder = "Search..."
+        className = 'mt-2' / >
         <
-        div > {
+        div className = 'mt-3' > {
             renderList()
 
         } < /div> < /
