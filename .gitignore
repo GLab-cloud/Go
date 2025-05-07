@@ -1,2 +1,3 @@
-/TodoListApp/React FE/node_modules
-/MongoDb/*.env
+**/node_modules
+**/src
+**/*.env
