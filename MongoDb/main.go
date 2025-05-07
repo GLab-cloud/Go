@@ -2,13 +2,13 @@ package main
 
 import (
 	"net/http"
-	"time"
+
+	"os"
 
 	"github.com/GLab-cloud/Go/MongoDb/controllers"
+	"github.com/joho/godotenv"
 	"github.com/julienschmidt/httprouter"
 	"gopkg.in/mgo.v2"
-	"github.com/joho/godotenv"
-    "os"
 )
 
 func main(){
@@ -22,10 +22,10 @@ func main(){
 }
 func getSession() *mgo.Session{
 	godotenv.Load()
-	println(os.Getenv("MONGO_URI"))
-	session, err := mgo.DialWithTimeout(os.Getenv("MONGO_URI"),60 * time.Second)
-	if err!=nil{
-		panic(err)
+
+	session,err := mgo.Dial(os.Getenv("MONGO_URI"))
+	println(session.DB(""))
+	if err==nil{
 	}
 	return session
 }
