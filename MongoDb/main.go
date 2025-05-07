@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"os"
@@ -24,8 +25,43 @@ func getSession() *mgo.Session{
 	godotenv.Load()
 
 	session,err := mgo.Dial(os.Getenv("MONGO_URI"))
-	println(session.DB(""))
-	if err==nil{
+	fmt.Println("connect Db succesful")
+	// db:=session.DB("")
+	// names, err := db.CollectionNames()
+	// println(names)
+	if err!=nil{
+		return session
 	}
 	return session
 }
+
+// type userInfo struct {
+// 	username string `bson:"username"`
+// 	pass     string    `bson:"pass"`
+//   }
+
+//   func connect() (session *mgo.Session) {
+// 	  connectURL := "localhost:27017"
+// 	  session, err := mgo.Dial(connectURL)
+// 	  if err != nil {
+// 		  fmt.Printf("Can't connect to mongo, go error %v\n", err)
+// 		  os.Exit(1)
+// 	  }
+// 	  session.SetSafe(&mgo.Safe{})
+// 	  return session
+//   }
+
+//   func main() {
+// 	session := connect()
+// 	defer session.Close()
+
+// 	result := userInfo {}
+// 	collection := session.DB("test_db").C("userlogin")
+// 	err := collection.Find(bson.M{"username": "super_sam"}).One(&result)
+// 		  if err != nil {
+// 				  log.Println("Not in db")
+// 				  return
+// 		  }
+
+// 		  fmt.Println("Username:%s", result.pass)
+//   }
