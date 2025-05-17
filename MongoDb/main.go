@@ -25,12 +25,12 @@ func getSession() *mgo.Session{
 	godotenv.Load()
 
 	session,err := mgo.Dial(os.Getenv("MONGO_URI"))
-	fmt.Println("connect Db succesful")
+	fmt.Println("connect MONGO Db successful")
 	// db:=session.DB("")
 	// names, err := db.CollectionNames()
 	// println(names)
 	if err!=nil{
-		return session
+		fmt.Println("connect MONGO Db failed!!!")
 	}
 	return session
 }
