@@ -18,6 +18,7 @@ func NewUserController( s *mgo.Session) *UserController{
 }
 func (uc UserController) GetUser(w http.ResponseWriter, r *http.Request, p httprouter.Params){
 	id:=p.ByName("id")
+	fmt.Println("get user param id = "+id)
 	if !bson.IsObjectIdHex(id){
 		w.WriteHeader(http.StatusNotFound)
 	}
@@ -49,5 +50,16 @@ func (uc UserController) CreateUser(w http.ResponseWriter, r *http.Request, _ ht
 	fmt.Fprintf(w,"%s\n",uj)
 }
 func (uc UserController) DeleteUser(w http.ResponseWriter, r *http.Request, p httprouter.Params){
+	id:=p.ByName("id")
+	if !bson.IsObjectIdHex(id){
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	oid:=bson.ObjectIdHex(id)
+	if err:=uc.session.DB("mongo-golang").C("users").RemoveId(oid);err!=nil{
+		w.WriteHeader(404)
 
+	}
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w,"Deleted user ",oid,"\n")
 }

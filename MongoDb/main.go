@@ -4,34 +4,36 @@ import (
 	"fmt"
 	"net/http"
 
-	"os"
+	"gopkg.in/mgo.v2"
 
 	"github.com/GLab-cloud/Go/MongoDb/controllers"
-	"github.com/joho/godotenv"
+	//"github.com/joho/godotenv"
 	"github.com/julienschmidt/httprouter"
-	"gopkg.in/mgo.v2"
 )
 
 func main(){
   r:=httprouter.New()
   uc:=controllers.NewUserController(getSession())
-  r.GET("/user/:id",uc.GetUser )
-  r.POST("/user",uc.CreateUser )
+  r.GET("/user/:id",uc.GetUser ) //curl "http://localhost:3000/user/6828191e7c530c8f2a80c278"
+  r.POST("/user",uc.CreateUser ) //curl -X POST -H 'Content-Type:application/json' http://localhost:3000/user -d '{"Name":"mario", "Gender":"Male","Age":41}'
   r.DELETE("/user/:id",uc.DeleteUser )
-  http.ListenAndServe("localhost:9000",r)
+  http.ListenAndServe("localhost:3000",r)
 
 }
 func getSession() *mgo.Session{
-	godotenv.Load()
-
-	session,err := mgo.Dial(os.Getenv("MONGO_URI"))
-	fmt.Println("connect MONGO Db successful")
+	//godotenv.Load()
+   url:="mongodb+srv://tintin:9zgXJTFzRbAMgp4A@cluster0.5usukl0.mongodb.net/"
+	// session,err := mgo.Dial(os.Getenv("MONGO_URI"))
+	session,err := mgo.Dial(url)
 	// db:=session.DB("")
 	// names, err := db.CollectionNames()
 	// println(names)
 	if err!=nil{
-		fmt.Println("connect MONGO Db failed!!!")
+		fmt.Printf("Can't connect to mongo, go error %v\n", err)
+		//os.Exit(1)
 	}
+	fmt.Println("connect MONGO Db successful")
+
 	return session
 }
 
