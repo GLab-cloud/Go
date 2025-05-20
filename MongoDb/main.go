@@ -4,36 +4,48 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
-	"time"
 
+	//"time"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
+
+	"github.com/GLab-cloud/Go/MongoDb/controllers"
 	"github.com/joho/godotenv"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"github.com/julienschmidt/httprouter"
 	// "go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 func main() {
-	godotenv.Load()
-    client, err := mongo.NewClient(options.Client().ApplyURI(os.Getenv("MONGO_URI")))
-    if err != nil {
-        log.Fatal(err)
-    }
-    ctx, _ := context.WithTimeout(context.Background(), 20*time.Second)
-    err = client.Connect(ctx)
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer client.Disconnect(ctx)
-    databases, err := client.ListDatabaseNames(ctx, bson.M{})
+    r:=httprouter.New()
+    uc:=controllers.NewUserController(getClient())
+    r.GET("/user/:id",uc.GetUser ) //curl "http://localhost:3000/user/6828191e7c530c8f2a80c278"
+    r.POST("/user",uc.CreateUser ) //curl -X POST -H 'Content-Type:application/json' http://localhost:3000/user -d '{"Name":"mario", "Gender":"Male","Age":41}'
+    r.DELETE("/user/:id",uc.DeleteUser )
+    http.ListenAndServe("localhost:3000",r)
+
+}
+
+func getClient () *mongo.Client{
+    godotenv.Load()
+    client, err := mongo.Connect(options.Client().ApplyURI(os.Getenv("MONGO_URI")))
+	if err != nil {
+		panic(err)
+	}
+	// defer func() {
+	// 	if err := client.Disconnect(context.TODO()); err != nil {
+	// 		panic(err)
+	// 	}
+	// }()
+    databases, err := client.ListDatabaseNames(context.TODO(), bson.M{})
     if err != nil {
         log.Fatal(err)
     }
     fmt.Println(databases)
+    return client
 }
-
-
 
 // package main
 
